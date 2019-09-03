@@ -46,6 +46,9 @@ public:
     v2d<int> transition(v2d<int> sol);
     int evaluation(v2d<int> sol);
     void determination(v2d<int> now_sol, int now_objectvalue);
+    void crossover_2d(v2d<int> &sol1, v2d<int> &sol2);
+    template <class T>
+    T takeout(v1d<T> &vec, int num);
 };
 class hc : public search_algorithm
 {
@@ -56,5 +59,41 @@ private:
     v2d<int> now_sol;
     int now_objectvalue;
     void init();
+};
+class sa : public search_algorithm
+{
+public:
+    sa(int num_neighbor, double max_temperature, double min_temperature, double decrease_rate);
+    virtual void run();
+
+private:
+    int num_neighbor;
+    double max_temperature;
+    double min_temperature;
+    double decrease_rate;
+
+    v2d<int> now_sol;
+    int now_objectvalue;
+    double now_temperature;
+    void init();
+    void create_neighbor();
+};
+class ga : public search_algorithm
+{
+public:
+    ga(int num_cms, double Pc, double Pm);
+    virtual void run();
+
+private:
+    int num_cms;
+    double Pc;
+    double Pm;
+    v3d<int> cms_sol;
+    v1d<int> cms_objectvalue;
+    void init();
+    void crossover();
+    void mutation();
+    void fitness();
+    void selection();
 };
 #endif

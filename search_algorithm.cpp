@@ -199,3 +199,102 @@ void search_algorithm::determination(v2d<int> now_sol, int now_objectvalue)
         best_objectvalue = now_objectvalue;
     }
 }
+void search_algorithm::crossover_2d(v2d<int> &sol1, v2d<int> &sol2)
+{
+    v2d<int> mask(sol1.size(), v1d<int>(num_J_service));
+    v1d<int> gene1, gene2;
+    v1d<int> tmp_gene1, tmp_gene2;
+    v1d<int> count(sol1.size(), 0);
+
+    int x1, y1, x2, y2;
+
+    x1 = rand() % sol1.size();
+    y1 = rand() % num_J_service;
+    x2 = rand() % sol1.size();
+    y2 = rand() % num_J_service;
+
+    while (x1 == x2 && y1 == y2)
+    {
+        x2 = rand() % sol1.size();
+        y2 = rand() % num_J_service;
+    }
+
+    if (x1 * num_J_service + y1 > x2 * num_J_service + y2)
+    {
+        int tmp = x1;
+        x1 = x2;
+        x2 = tmp;
+        tmp = y1;
+        y1 = y2;
+        y2 = tmp;
+    }
+
+    int mask01 = random(0, 1);
+    int point1 = x1 * num_J_service + y1;
+    int point2 = x2 * num_J_service + y2;
+    for (int i = 0; i < mask.size(); i++)
+        for (int j = 0; j < num_J_service; j++)
+        {
+            int point = i * num_J_service + j;
+            if (point > point1 && point < point2)
+                mask[i][j] = mask01;
+            else
+                mask[i][j] = !mask01;
+        }
+
+    for (int i = 0; i < mask.size(); i++)
+        for (int j = 0; j < num_J_service; j++)
+            if (mask[i][j] == 1)
+            {
+                gene1.push_back(sol1[i][j]);
+                gene2.push_back(sol2[i][j]);
+                count[i]++;
+            }
+
+    for (int i = 0; i < count.size(); i++)
+    {
+        if (count[i] == num_J_service)
+            for (int j = 0; j < num_J_service; j++)
+                tmp_gene1.push_back(sol2[i][j]);
+        else
+            for (int j = 0; j < num_J_service; j++)
+                for (int k = 0; k < count[i]; k++)
+                    if (gene1[k] == sol2[i][j])
+                    {
+                        tmp_gene1.push_back(sol2[i][j]);
+                        break;
+                    }
+        gene1.erase(gene1.begin(), gene1.begin() + count[i]);
+    }
+
+    for (int i = 0; i < count.size(); i++)
+    {
+        if (count[i] == num_J_service)
+            for (int j = 0; j < num_J_service; j++)
+                tmp_gene2.push_back(sol1[i][j]);
+        else
+            for (int j = 0; j < num_J_service; j++)
+                for (int k = 0; k < count[i]; k++)
+                    if (gene2[k] == sol1[i][j])
+                    {
+                        tmp_gene2.push_back(sol1[i][j]);
+                        break;
+                    }
+        gene2.erase(gene2.begin(), gene2.begin() + count[i]);
+    }
+
+    for (int i = 0; i < mask.size(); i++)
+        for (int j = 0; j < num_J_service; j++)
+            if (mask[i][j] == 1)
+            {
+                sol1[i][j] = takeout(tmp_gene1, 0);
+                sol2[i][j] = takeout(tmp_gene2, 0);
+            }
+}
+template <class T>
+T search_algorithm::takeout(v1d<T> &vec, int num)
+{
+    T t = vec[num];
+    vec.erase(vec.begin() + num);
+    return t;
+}
