@@ -20,31 +20,19 @@ int main(int argc, char **argv)
             atof(argv[7]), // Pc
             atof(argv[8])  // Pm
         );
-    // else if (algorithm == "cro")
-    //     search_alg = new cro(
-    //         atoi(argv[8]),  // n1
-    //         atoi(argv[9]),  // n2
-    //         atof(argv[10]), // Pi
-    //         atof(argv[11]), // Fb
-    //         atoi(argv[12]), // K
-    //         atof(argv[13]), // Fa
-    //         atof(argv[14]), // Fd
-    //         atof(argv[15])  // Pd
-    //     );
-    // else if (algorithm == "se")
-    //     search_alg = new se(
-    //         atoi(argv[8]),  // num_searcher
-    //         atoi(argv[9]),  // num_region
-    //         atoi(argv[10]), // num_sample
-    //         atoi(argv[11])  // num_player
-    //     );
-    // else if (algorithm == "sasp")
-    //     search_alg = new sasp(
-    //         atoi(argv[8]),  // numPartition
-    //         atoi(argv[9]),  // neighbor
-    //         atof(argv[10]), // max_temperature
-    //         atof(argv[11])  // min_temperature
-    //     );
+    else if (algorithm == "se")
+        search_alg = new se(
+            atoi(argv[6]), // num_searcher
+            atoi(argv[7]), // num_region
+            atoi(argv[8]), // num_sample
+            atoi(argv[9])  // num_player
+        );
+    else if (algorithm == "RIA")
+        search_alg = new RIA();
+    else if (algorithm == "ACA")
+        search_alg = new ACA();
+    else if (algorithm == "FCFS")
+        search_alg = new FCFS();
 
     search_alg->init(
         argv[2],        // dataset_path
