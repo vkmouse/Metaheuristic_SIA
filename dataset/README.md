@@ -1,3 +1,10 @@
+### Outline
+
+- [Description](#Description)
+- [Compile](#Compile)
+- [Usage](#Usage)
+  - [For example](#For-example)
+
 ### Description
 There are nine resource allocation problem datasets DS1 ~ DS9. Each of one has four parameters, number of resources, number of devices, number of interfaces, and number of services, respectively.
 
@@ -20,7 +27,7 @@ DS9     | 3                   | 100               | 3                    | 2,000
 ### Usage
 Seven parameters are required to execute the program.
 
-1. Number of interfaces * number of devices (I * Z)
+1. Number of interfaces $$/times$$ number of devices (I $$/times$$ Z)
 2. Number of services (J)
 3. Number of resources (K)
 4. Minimum resources value
@@ -30,6 +37,6 @@ Seven parameters are required to execute the program.
 
 
 #### For example
-Generate a dataset "dataset.txt" with number of interfaces * number of devices is 300, number of services is 2000, number of resources is 3, minimum resources value is 20, maximum resources value is 100, minimum resources cost is 5, and maximum resources cost is 40
+Generate a dataset **dataset.txt** with number of interfaces $$/times$$ number of devices is 300, number of services is 2000, number of resources is 3, minimum resources value is 20, maximum resources value is 100, minimum resources cost is 5, and maximum resources cost is 40
 
     create_dataset.exe 300 2000 3 20 10 5 40 > dataset.txt
